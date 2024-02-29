@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import css from "./style.module.css";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "@/app/assets/firebase";
+import { app } from "@/assets/firebase";
 
 const Auth = () => {
   const [email, setEmail] = useState("");

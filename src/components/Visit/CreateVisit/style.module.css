@@ -1,0 +1,40 @@
+.visit__wrapper {
+  width: 80vw;
+  height: 80vh;
+  background-color: rgb(238, 238, 238);
+  padding: 15px 15px;
+  border-radius: 10px;
+}
+.left__list {
+  display: grid;
+
+  height: 75vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  row-gap: 20px;
+  width: 45%;
+  padding: 20px;
+}
+.left__item {
+  display: flex;
+  padding: 10px 10px 10px 15px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: rgb(211, 211, 211);
+}
+.left__name {
+  flex-basis: 70%;
+}
+.left__name::first-letter {
+  text-transform: uppercase;
+}
+.left__price {
+  flex-basis: 15%;
+}
+.left__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 15%;
+  background-color: transparent;
+}

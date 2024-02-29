@@ -1,11 +1,10 @@
 "use client";
-import Image from "next/image";
-import styles from "./page.module.css";
-import Auth from "./components/Auth";
+
+import Auth from "@/components/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth, signOut, User as FirebaseAuthUser } from "firebase/auth";
-import { app } from "@/app/assets/firebase";
-import Hero from "@/app/components/Hero";
+import { app } from "@/assets/firebase";
+import Hero from "@/components/Hero";
 
 export default function Home() {
   const auth = getAuth(app);
