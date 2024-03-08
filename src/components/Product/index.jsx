@@ -28,7 +28,7 @@ const Product = () => {
         </div>
       </div>
       <PopUp activePopup={activePopup} setActivePopup={setActivePopup}>
-        <AddProduct />
+        <AddProduct setActivePopup={setActivePopup} />
       </PopUp>
     </>
   );

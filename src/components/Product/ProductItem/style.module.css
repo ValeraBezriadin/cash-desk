@@ -9,3 +9,6 @@
 .product__icon {
   background-color: transparent;
 }
+.product__td {
+  cursor: pointer;
+}

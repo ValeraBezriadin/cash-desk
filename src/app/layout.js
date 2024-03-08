@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ProductProvider from "@/components/Context";
 import Navigation from "@/components/Navigation";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,10 @@ export default function RootLayout({ children }) {
       <ProductProvider>
         <body className={inter.className}>
           <Navigation />
-          <main className={"main"}>{children}</main>
+          <main className={"main"}>
+            {children}
+            <ToastContainer position="bottom-right" autoClose={5000} />
+          </main>
         </body>
       </ProductProvider>
     </html>

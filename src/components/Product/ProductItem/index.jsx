@@ -8,6 +8,7 @@ import PopUp from "@/components/Product/PopUp";
 import axios from "axios";
 import { useProduct } from "@/components/Context";
 import AddProduct from "../AddProduct";
+import { toast } from "react-toastify";
 
 const ProductItem = ({ item }) => {
   const { id, productName, purchasePrice, sellingPrice } = item;
@@ -15,19 +16,35 @@ const ProductItem = ({ item }) => {
 
   const [activePopup, setActivePopup] = useState(false);
   const { fetchProduct } = useProduct();
+  const notify = (name) =>
+    toast.success(name, {
+      position: "bottom-right",
+      autoClose: 3000,
+      pauseOnHover: false,
+    });
 
   const handleDelete = async () => {
     try {
       const response = await axios.delete(`${PRODUCT_URL}/${id}`);
 
       if (response.status >= 200 && response.status < 300) {
+        notify("Succesfuly delete");
         fetchProduct();
       }
     } catch (error) {
       console.error("Error delete product", error);
     }
   };
-
+  const copyToClipboard = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log("Copied to clipboard:", text);
+      })
+      .catch((error) => {
+        console.error("Failed to copy:", error);
+      });
+  };
   return (
     <>
       <tr className={css.product__tr}>
@@ -39,11 +56,20 @@ const ProductItem = ({ item }) => {
             <FaEdit size={30} />
           </button>
           <PopUp activePopup={activePopup} setActivePopup={setActivePopup}>
-            <AddProduct edit={true} item={item} />
+            <AddProduct
+              edit={true}
+              setActivePopup1={setActivePopup}
+              item={item}
+            />
           </PopUp>
         </td>
         <td>{id} </td>
-        <td className={css.product__td}>{productName}</td>
+        <td
+          className={css.product__td}
+          onClick={() => copyToClipboard(productName)}
+        >
+          {productName}
+        </td>
         <td>{difference}</td>
         <td>{purchasePrice}</td>
         <td>{sellingPrice}</td>

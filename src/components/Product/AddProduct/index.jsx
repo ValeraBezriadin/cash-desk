@@ -5,8 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { PRODUCT_URL } from "@/utils/constans";
 import { useProduct } from "@/components/Context";
+import { toast } from "react-toastify";
 
-const AddProduct = ({ edit, item }) => {
+const AddProduct = ({ edit, item, setActivePopup, setActivePopup1 }) => {
   const { fetchProduct } = useProduct();
   const [formData, setFormData] = useState(
     edit
@@ -17,7 +18,12 @@ const AddProduct = ({ edit, item }) => {
           sellingPrice: 0,
         }
   );
-
+  const notify = (name) =>
+    toast.success(name, {
+      position: "bottom-right",
+      autoClose: 3000,
+      pauseOnHover: false,
+    });
   const handleChange = (event) => {
     const { name, value, type } = event.target;
 
@@ -45,6 +51,8 @@ const AddProduct = ({ edit, item }) => {
       });
       console.log("response", response);
       if (response) {
+        notify("Succesfuly create");
+        setActivePopup(false);
         setFormData({
           productName: "",
           purchasePrice: 0,
@@ -69,6 +77,8 @@ const AddProduct = ({ edit, item }) => {
         }
       );
       if (respons) {
+        notify("Succesfuly edit");
+        setActivePopup1(false);
         fetchProduct();
       }
     } catch (error) {

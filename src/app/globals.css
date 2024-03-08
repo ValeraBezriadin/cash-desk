@@ -39,7 +39,6 @@ html,
 body {
   max-width: 100vw;
   width: 100%;
-  overflow-x: hidden;
 }
 
 a {
@@ -54,6 +53,7 @@ a {
   --bg-nav: #e4e3e3;
   --bg-button: #8bb9de;
   --bg-table: #cbc8c8;
+  --bg-grey: rgb(211, 211, 211);
   --popup-translucent: rgb(0, 0, 0, 0.4);
 }
 .main {

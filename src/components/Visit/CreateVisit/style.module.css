@@ -4,23 +4,27 @@
   background-color: rgb(238, 238, 238);
   padding: 15px 15px;
   border-radius: 10px;
+  display: flex;
 }
 .left__list {
-  display: grid;
-
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   height: 75vh;
   overflow: hidden;
   overflow-y: scroll;
-  row-gap: 20px;
+
   width: 45%;
   padding: 20px;
+  scrollbar-width: thin;
 }
 .left__item {
   display: flex;
   padding: 10px 10px 10px 15px;
   border-radius: 10px;
   width: 100%;
-  background-color: rgb(211, 211, 211);
+  background-color: var(--bg-grey);
+  height: 40px;
 }
 .left__name {
   flex-basis: 70%;
@@ -37,4 +41,25 @@
   justify-content: center;
   flex-basis: 15%;
   background-color: transparent;
+}
+/* right */
+.right__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+}
+
+.right__inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.right__totalPrice {
+  font-size: 24px;
+}
+.right__button {
+  padding: 15px 20px;
+
+  background-color: var(--bg-grey);
+  border-radius: 10px;
 }
