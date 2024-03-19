@@ -34,7 +34,6 @@ const Visit = () => {
       if (response) {
         setVisit(response.data);
         setVisitLoading(true);
-        console.log("datapicker", dateRange);
       }
     } catch (error) {
       console.error("Error fetching visit data:", error);
@@ -63,7 +62,7 @@ const Visit = () => {
     }
     return true;
   });
-  console.log("filteredArray", filteredArray);
+
   const totalPurchasePrice = visit.reduce(
     (sum, obj) => obj.totalPurchasePrice + sum,
     0

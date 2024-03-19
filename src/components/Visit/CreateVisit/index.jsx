@@ -28,7 +28,6 @@ const CreateVisit = ({ setActivePopup, fetchVisit }) => {
       );
     } else {
       setVisit((prevVisit) => [...prevVisit, { ...item, count: 1 }]);
-      console.log("visit:", visit);
     }
   };
 
@@ -40,7 +39,7 @@ const CreateVisit = ({ setActivePopup, fetchVisit }) => {
     (sum, obj) => obj.purchasePrice * obj.count + sum,
     0
   );
-  console.log("purchasePrice", totalPurchasePrice);
+
   const saveVisit = async () => {
     let date = new Date();
 
@@ -51,7 +50,6 @@ const CreateVisit = ({ setActivePopup, fetchVisit }) => {
       totalSellingPrice: totalPrice,
       totalPurchasePrice: totalPurchasePrice,
     };
-    console.log(visitDate);
 
     try {
       const respons = await axios.post(VISIT_URL, visitDate, {
