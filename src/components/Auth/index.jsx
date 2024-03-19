@@ -8,9 +8,6 @@ import { app } from "@/assets/firebase";
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [user, setUser] = useState(null);
-  // const [loading, setLoading] = useState(null);
-  // const [error, setError] = useState(null);
   const auth = getAuth(app);
   const [user, loading, error] = useAuthState(auth);
 

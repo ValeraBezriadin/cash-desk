@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import css from "./style.module.css";
 import { useProduct } from "@/components/Context";
 import { FaPlus } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import InputVisit from "./InputVisit";
 import ListVisit from "./ListVIsits";
 import { VISIT_URL } from "@/utils/constans";
 import axios from "axios";
@@ -38,6 +36,11 @@ const CreateVisit = ({ setActivePopup, fetchVisit }) => {
     (sum, obj) => obj.sellingPrice * obj.count + sum,
     0
   );
+  const totalPurchasePrice = visit.reduce(
+    (sum, obj) => obj.purchasePrice * obj.count + sum,
+    0
+  );
+  console.log("purchasePrice", totalPurchasePrice);
   const saveVisit = async () => {
     let date = new Date();
 
@@ -45,6 +48,8 @@ const CreateVisit = ({ setActivePopup, fetchVisit }) => {
       date: date,
       products: visit,
       id: 0,
+      totalSellingPrice: totalPrice,
+      totalPurchasePrice: totalPurchasePrice,
     };
     console.log(visitDate);
 

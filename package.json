@@ -17,6 +17,7 @@
     "next": "14.0.4",
     "react": "^18",
     "react-content-loader": "^6.2.1",
+    "react-datepicker": "^6.3.0",
     "react-dom": "^18",
     "react-firebase-hooks": "^5.1.1",
     "react-toastify": "^10.0.4",

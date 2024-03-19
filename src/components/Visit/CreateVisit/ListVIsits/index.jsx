@@ -11,6 +11,7 @@ const ListVisit = ({ visit, setVisit }) => {
   };
   return (
     <ul className={css.right__list}>
+    
       <li className={css.right__item}>
         <p className={css.right__name}>Title</p>
         <p className={css.right__count}>Count</p>
