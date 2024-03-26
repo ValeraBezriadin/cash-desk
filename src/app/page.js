@@ -4,6 +4,7 @@ import { app } from "@/assets/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Navigation from "@/components/Navigation";
 
 export default function Home() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function Home() {
 
   return (
     <>
+      <Navigation />
       <h2>Home page in app</h2>
     </>
   );

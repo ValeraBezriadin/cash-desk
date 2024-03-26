@@ -1,8 +1,26 @@
+"use client";
+import { app } from "@/assets/firebase";
 import Navigation from "@/components/Navigation";
-import React from "react";
+import { getAuth } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-const RootLayout = () => {
-  return <>{/* <Navigation /> */}</>;
+const RootLayout = ({ children }) => {
+  const auth = getAuth(app);
+  const [user, loading, error] = useAuthState(auth);
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, []);
+  return (
+    <>
+      <Navigation />
+      <div>{children}</div>
+    </>
+  );
 };
 
 export default RootLayout;

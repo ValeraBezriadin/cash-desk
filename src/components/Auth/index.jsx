@@ -1,16 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import css from "./style.module.css";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "@/assets/firebase";
+import { useRouter } from "next/navigation";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth(app);
   const [user, loading, error] = useAuthState(auth);
-
+  const router = useRouter();
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
