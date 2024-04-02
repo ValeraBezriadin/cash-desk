@@ -5,13 +5,11 @@ import css from "./style.module.css";
 
 const ListVisit = ({ visit, setVisit }) => {
   const handleDelete = (id) => {
-    console.log("id", id);
     const updatedVisit = visit.filter((item) => item.id !== id);
     setVisit(updatedVisit);
   };
   return (
     <ul className={css.right__list}>
-    
       <li className={css.right__item}>
         <p className={css.right__name}>Title</p>
         <p className={css.right__count}>Count</p>

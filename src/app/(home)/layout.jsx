@@ -11,10 +11,12 @@ const RootLayout = ({ children }) => {
   const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
+    if (!loading) {
+      if (!user) {
+        router.push("/login");
+      }
     }
-  }, []);
+  }, [loading, user]);
   return (
     <>
       <Navigation />

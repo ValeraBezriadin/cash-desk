@@ -1,9 +1,9 @@
-.product__tr > td {
+.product__td {
   padding: 15px;
   border: black solid 1px;
   text-align: center;
 }
-.product__td {
+.produc__name {
   text-align: left !important;
 }
 .product__icon {

@@ -11,11 +11,11 @@ import AddProduct from "../AddProduct";
 import { toast } from "react-toastify";
 
 const ProductItem = ({ item }) => {
+  const [activePopup, setActivePopup] = useState(false);
+  const { fetchProduct } = useProduct();
   const { id, productName, purchasePrice, sellingPrice } = item;
   const difference = sellingPrice - purchasePrice;
 
-  const [activePopup, setActivePopup] = useState(false);
-  const { fetchProduct } = useProduct();
   const notify = (name) =>
     toast.success(name, {
       position: "bottom-right",
@@ -48,7 +48,7 @@ const ProductItem = ({ item }) => {
   return (
     <>
       <tr className={css.product__tr}>
-        <td>
+        <td className={css.product__td}>
           <button
             className={css.product__icon}
             onClick={() => setActivePopup(true)}
@@ -63,17 +63,17 @@ const ProductItem = ({ item }) => {
             />
           </PopUp>
         </td>
-        <td>{id} </td>
+        <td className={css.product__td}>{id} </td>
         <td
-          className={css.product__td}
+          className={css.product__td + " " + css.produc__name}
           onClick={() => copyToClipboard(productName)}
         >
           {productName}
         </td>
-        <td>{difference}</td>
-        <td>{purchasePrice}</td>
-        <td>{sellingPrice}</td>
-        <td>
+        <td className={css.product__td}>{difference}</td>
+        <td className={css.product__td}>{purchasePrice}</td>
+        <td className={css.product__td}>{sellingPrice}</td>
+        <td className={css.product__td}>
           <button className={css.product__icon} onClick={() => handleDelete()}>
             <MdDelete size={30} />
           </button>

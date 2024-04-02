@@ -1,14 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import css from "./style.module.css";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { PRODUCT_URL } from "@/utils/constans";
 import { useProduct } from "@/components/Context";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddProduct = ({ edit, item, setActivePopup, setActivePopup1 }) => {
+const AddProduct = ({ edit, item, setActivePopup }) => {
   const { fetchProduct } = useProduct();
   const [formData, setFormData] = useState(
     edit
@@ -19,18 +18,13 @@ const AddProduct = ({ edit, item, setActivePopup, setActivePopup1 }) => {
           sellingPrice: 0,
         }
   );
-  const notify = () =>
-    toast.success("Succesfuly create", {
+  const notify = (name) =>
+    toast.success(name, {
       position: "bottom-right",
       autoClose: 3000,
       pauseOnHover: false,
     });
-  const notify1 = () =>
-    toast.success("Succesfuly edit", {
-      position: "bottom-right",
-      autoClose: 3000,
-      pauseOnHover: false,
-    });
+
   const handleChange = (event) => {
     const { name, value, type } = event.target;
 
@@ -58,7 +52,7 @@ const AddProduct = ({ edit, item, setActivePopup, setActivePopup1 }) => {
       });
       console.log("response", response);
       if (response) {
-        notify();
+        notify("Succesfuly create");
         setActivePopup(false);
         setFormData({
           productName: "",
@@ -84,8 +78,8 @@ const AddProduct = ({ edit, item, setActivePopup, setActivePopup1 }) => {
         }
       );
       if (respons) {
-        notify1();
-        setActivePopup1(false);
+        notify("Succesfuly edit");
+        setActivePopup(false);
         fetchProduct();
       }
     } catch (error) {

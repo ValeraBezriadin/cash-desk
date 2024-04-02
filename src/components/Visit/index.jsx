@@ -11,18 +11,24 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const Visit = () => {
   const [activePopup, setActivePopup] = useState(false);
   const [visitLoading, setVisitLoading] = useState(false);
   const [visit, setVisit] = useState([]);
   const [dateRange, setDateRange] = useState([null]);
+  const [filteredVisits, setFilteredVisits] = useState([]);
 
   useEffect(() => {
     fetchVisit();
   }, []);
 
+  useEffect(() => {
+    filteredArray();
+  }, [dateRange]);
+
   const notify = () =>
-    toast.success("Succesfuly delete", {
+    toast.success("Successfully deleted", {
       position: "bottom-right",
       autoClose: 3000,
       pauseOnHover: false,
@@ -33,6 +39,7 @@ const Visit = () => {
       const response = await axios.get(VISIT_URL);
       if (response) {
         setVisit(response.data);
+        setFilteredVisits(response.data);
         setVisitLoading(true);
       }
     } catch (error) {
@@ -51,33 +58,27 @@ const Visit = () => {
       console.error(error);
     }
   };
-  const filteredArray = visit.filter((item) => {
+
+  const filteredArray = () => {
     if (dateRange[0] && dateRange[1]) {
-      return moment(item.date).isBetween(
-        dateRange[0],
-        dateRange[1],
-        null,
-        "[]"
-      );
+      const filter = visit.filter((item) => {
+        return moment(item.date).isBetween(
+          dateRange[0],
+          dateRange[1],
+          null,
+          "[[]]"
+        );
+      });
+      setFilteredVisits(filter);
     }
-    return true;
-  });
+  };
 
-  const totalPurchasePrice = visit.reduce(
+  const totalPurchasePrice = filteredVisits?.reduce(
     (sum, obj) => obj.totalPurchasePrice + sum,
     0
   );
 
-  const totalSellingPrice = visit.reduce(
-    (sum, obj) => obj.totalSellingPrice + sum,
-    0
-  );
-  const totalPurchasePriceDate = filteredArray.reduce(
-    (sum, obj) => obj.totalPurchasePrice + sum,
-    0
-  );
-
-  const totalSellingPriceDate = filteredArray.reduce(
+  const totalSellingPrice = filteredVisits?.reduce(
     (sum, obj) => obj.totalSellingPrice + sum,
     0
   );
@@ -87,7 +88,7 @@ const Visit = () => {
       <div className={css.visit}>
         <div className="container">
           <div className={css.wrapper}>
-            <nav className={css.nav}>
+            <div className={css.nav}>
               <button className={css.btn} onClick={() => setActivePopup(true)}>
                 Create visit
               </button>
@@ -117,127 +118,72 @@ const Visit = () => {
                   />
                 </div>
               </div>
-            </nav>
+            </div>
             <ul className={css.list}>
               <li className={css.item}>
                 <span className={css.date}>Date</span>
                 <span className={css.products}>Products</span>
                 <span className={css.purchasePrice}>
                   Purchase price:
-                  {dateRange[0] && dateRange[1]
-                    ? totalPurchasePriceDate
-                    : totalPurchasePrice}
+                  {totalPurchasePrice}
                 </span>
                 <span className={css.sellingPrice}>
-                  Selling price:{" "}
-                  {dateRange[0] && dateRange[1]
-                    ? totalSellingPriceDate
-                    : totalSellingPrice}
+                  Selling price:
+                  {totalSellingPrice}
                 </span>
                 <span className={css.diffirence}>
-                  Diffirence:{" "}
-                  {dateRange[0] && dateRange[1]
-                    ? totalSellingPriceDate - totalPurchasePriceDate
-                    : totalSellingPrice - totalPurchasePrice}
+                  Difference:
+                  {totalSellingPrice - totalPurchasePrice}
                 </span>
                 <span className={css.delete}>Delete</span>
               </li>
               {visitLoading ? (
-                dateRange[0] && dateRange[1] ? (
-                  filteredArray.map((i) => (
-                    <li key={i.id} className={css.item}>
-                      <span className={css.date}>
-                        {moment(i.date).format("DD.MM.YY")}
-                      </span>
-                      <span className={css.products}>
-                        <ol className={css.products__list}>
-                          {i.products.map((item) => (
-                            <li className={css.products__item} key={item.id}>
-                              {item.productName} x {item.count}{" "}
-                            </li>
-                          ))}
-                        </ol>
-                      </span>
-                      <span className={css.purchasePrice}>
-                        {i.products.reduce(
+                filteredVisits?.map((i) => (
+                  <li key={i.id} className={css.item}>
+                    <span className={css.date}>
+                      {moment(i.date).format("DD.MM.YY")}
+                    </span>
+                    <span className={css.products}>
+                      <ol className={css.products__list}>
+                        {i.products.map((item) => (
+                          <li className={css.products__item} key={item.id}>
+                            {item.productName} x {item.count}{" "}
+                          </li>
+                        ))}
+                      </ol>
+                    </span>
+                    <span className={css.purchasePrice}>
+                      {i.products.reduce(
+                        (sum, obj) => obj.purchasePrice * obj.count + sum,
+                        0
+                      )}
+                    </span>
+                    <span className={css.sellingPrice}>
+                      {i.products.reduce(
+                        (sum, obj) => obj.sellingPrice * obj.count + sum,
+                        0
+                      )}
+                    </span>
+                    <span className={css.diffirence}>
+                      {i.products.reduce(
+                        (sum, obj) => obj.sellingPrice * obj.count + sum,
+                        0
+                      ) -
+                        i.products.reduce(
                           (sum, obj) => obj.purchasePrice * obj.count + sum,
                           0
                         )}
-                      </span>
-                      <span className={css.sellingPrice}>
-                        {i.products.reduce(
-                          (sum, obj) => obj.sellingPrice * obj.count + sum,
-                          0
-                        )}
-                      </span>
-                      <span className={css.diffirence}>
-                        {i.products.reduce(
-                          (sum, obj) => obj.sellingPrice * obj.count + sum,
-                          0
-                        ) -
-                          i.products.reduce(
-                            (sum, obj) => obj.purchasePrice * obj.count + sum,
-                            0
-                          )}
-                      </span>
-                      <span className={css.delete}>
-                        <button
-                          className={css.button}
-                          onClick={() => handleDelete(i.id)}
-                        >
-                          <MdOutlineDeleteOutline size={27} />
-                        </button>
-                      </span>
-                    </li>
-                  ))
-                ) : (
-                  visit.map((i) => (
-                    <li key={i.id} className={css.item}>
-                      <span className={css.date}>
-                        {moment(i.date).format("DD.MM.YY")}
-                      </span>
-                      <span className={css.products}>
-                        <ol className={css.products__list}>
-                          {i.products.map((item) => (
-                            <li className={css.products__item} key={item.id}>
-                              {item.productName} x {item.count}{" "}
-                            </li>
-                          ))}
-                        </ol>
-                      </span>
-                      <span className={css.purchasePrice}>
-                        {i.products.reduce(
-                          (sum, obj) => obj.purchasePrice * obj.count + sum,
-                          0
-                        )}
-                      </span>
-                      <span className={css.sellingPrice}>
-                        {i.products.reduce(
-                          (sum, obj) => obj.sellingPrice * obj.count + sum,
-                          0
-                        )}
-                      </span>
-                      <span className={css.diffirence}>
-                        {i.products.reduce(
-                          (sum, obj) => obj.sellingPrice * obj.count + sum,
-                          0
-                        ) -
-                          i.products.reduce(
-                            (sum, obj) => obj.purchasePrice * obj.count + sum,
-                            0
-                          )}
-                      </span>
-                      <span className={css.delete}>
-                        <button
-                          className={css.button}
-                          onClick={() => handleDelete(i.id)}
-                        >
-                          <MdOutlineDeleteOutline size={27} />
-                        </button>
-                      </span>
-                    </li>
-                  ))
-                )
+                    </span>
+                    <span className={css.delete}>
+                      <button
+                        className={css.button}
+                        onClick={() => handleDelete(i.id)}
+                      >
+                        <MdOutlineDeleteOutline size={27} />
+                      </button>
+                    </span>
+                  </li>
+                ))
               ) : (
                 <p>Loading...</p>
               )}

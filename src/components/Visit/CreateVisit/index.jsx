@@ -12,18 +12,20 @@ const CreateVisit = ({ setActivePopup, fetchVisit }) => {
   const [visit, setVisit] = useState([]);
 
   const { product } = useProduct();
+
   const notify = () =>
     toast.success("Succesfuly create", {
       position: "bottom-right",
       autoClose: 3000,
       pauseOnHover: false,
     });
+
   const handleAdd = (item) => {
     const double = visit.find((i) => i.id === item.id);
     if (double) {
       setVisit((prevVisit) =>
         prevVisit.map((i) =>
-          i.id === item.id ? { ...i, count: i.count + 1 } : i
+          i.id === item.id ? { ...i, count: +i.count + 1 } : i
         )
       );
     } else {

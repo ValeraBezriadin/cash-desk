@@ -8,7 +8,6 @@ import { app } from "@/assets/firebase";
 const VisitPage = () => {
   const auth = getAuth(app);
   const [user, loading, error] = useAuthState(auth);
-  console.log(user);
   return <Visit />;
 };
 
